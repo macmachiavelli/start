@@ -7,3 +7,29 @@ def get_primes(n):
         primes.append(p)
         numbers.difference_update(set(range(p*2, n+1, p)))
     return primes
+    
+    # compress: 
+    import itertools
+def determinant(matrix):
+	rows = len(matrix)
+	cols = len(matrix[0])
+	print('rows:{}, cols:{}'.format(rows,cols))
+	if rows==1 and cols==1:
+		print('got to final value:{}'.format(matrix[0][0]))
+		return matrix[0][0]
+	if rows==2 and cols==2:
+		calcRes = matrix[0][0]*matrix[1][1]- matrix[0][1]*matrix[1][0]
+		print('got to final det:{}'.format(calcRes))
+		return calcRes 
+	signStyle = [(-1)**i for i in range(rows)]
+	print('determinant for:{}'.format(matrix))
+	return sum([signStyle[i]*matrix[0][i]*determinant(findMinor(matrix,i)) for i in range(rows)])
+def findMinor(matrix, rowEntry):
+    mat = matrix[1:]
+    lenMat = len(mat)
+    compressionStyle = [1 for i in range(len(mat[0]))] 
+    compressionStyle[rowEntry] = 0
+    minor =  [list(itertools.compress(mat[i],compressionStyle)) for i in range(lenMat)]
+    print('minor is:{}'.format(minor))
+    return minor 
+
